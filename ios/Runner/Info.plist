@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>CFBundleDevelopmentRegion</key>
+		<string>$(DEVELOPMENT_LANGUAGE)</string>
+		<key>CFBundleDisplayName</key>
+		<string>ZiggyBites</string>
+		<key>CFBundleExecutable</key>
+		<string>$(EXECUTABLE_NAME)</string>
+		<key>CFBundleIdentifier</key>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+		<key>CFBundleInfoDictionaryVersion</key>
+		<string>6.0</string>
+		<key>CFBundleName</key>
+		<string>ZiggyBites</string>
+		<key>CFBundlePackageType</key>
+		<string>APPL</string>
+		<key>CFBundleShortVersionString</key>
+		<string>$(FLUTTER_BUILD_NAME)</string>
+		<key>CFBundleSignature</key>
+		<string>????</string>
+		<key>CFBundleVersion</key>
+		<string>$(FLUTTER_BUILD_NUMBER)</string>
+		<key>LSRequiresIPhoneOS</key>
+		<true/>
+		<key>UILaunchStoryboardName</key>
+		<string>LaunchScreen</string>
+		<key>UIMainStoryboardFile</key>
+		<string>Main</string>
+		<key>UISupportedInterfaceOrientations</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>UISupportedInterfaceOrientations~ipad</key>
+		<array>
+			<string>UIInterfaceOrientationPortrait</string>
+			<string>UIInterfaceOrientationPortraitUpsideDown</string>
+			<string>UIInterfaceOrientationLandscapeLeft</string>
+			<string>UIInterfaceOrientationLandscapeRight</string>
+		</array>
+		<key>CADisableMinimumFrameDurationOnPhone</key>
+		<true/>
+		<key>UIApplicationSupportsIndirectInputEvents</key>
+		<true/>
+		<!-- Background Modes for Remote Notifications -->
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>remote-notification</string>
+		</array>
+		<!-- ==================== CAMERA PERMISSION ==================== -->
+		<key>NSCameraUsageDescription</key>
+		<string>ZiggyBites requires access to your camera to take photos for your profile and scan payment QR codes.</string>
+		<!-- ==================== MICROPHONE PERMISSION ==================== -->
+		<key>NSMicrophoneUsageDescription</key>
+		<string>ZiggyBites requires access to your microphone to record voice instructions and messages for customer support.</string>
+		<!-- ==================== LOCATION PERMISSIONS ==================== -->
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>ZiggyBites requires access to your location to automatically find nearby restaurants, calculate delivery times, and track your order in real-time.</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>ZiggyBites requires access to your location to automatically find nearby restaurants, calculate delivery times, and track your order in real-time.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>ZiggyBites requires access to your location to automatically find nearby restaurants, calculate delivery times, and track your order in real-time.</string>
+		<!-- ==================== PHOTO LIBRARY PERMISSIONS ==================== -->
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>ZiggyBites requires access to your photo library to let you select and upload pictures for your user profile and chat attachments.</string>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>ZiggyBites requires permission to save order receipts and transaction screenshots directly to your photo library.</string>
+		<!-- ==================== NOTIFICATION PERMISSION ==================== -->
+		<key>NSUserNotificationsUsageDescription</key>
+		<string>ZiggyBites requires permission to send you notifications for live order status updates, delivery alerts, and exclusive offers.</string>
+		<!-- ==================== WEBVIEW SETTINGS ==================== -->
+		<key>io.flutter.embedded_views_preview</key>
+		<true/>
+		<!-- Allow HTTP connections (for development only - remove in production) -->
+		<key>NSAppTransportSecurity</key>
+		<dict>
+			<key>NSAllowsArbitraryLoads</key>
+			<true/>
+		</dict>
+		<!-- ==================== URL SCHEME QUERIES ==================== -->
+		<!-- Required for iOS to query and open other apps via URL schemes -->
+		<key>LSApplicationQueriesSchemes</key>
+		<array>
+			<!-- Phone and Communication -->
+			<string>tel</string>
+			<string>telprompt</string>
+			<string>mailto</string>
+			<string>sms</string>
+			<!-- WhatsApp -->
+			<string>whatsapp</string>
+			<string>whatsapp-api</string>
+			<!-- Social Media -->
+			<string>fb</string>
+			<string>fbapi</string>
+			<string>fbauth2</string>
+			<string>fbshareextension</string>
+			<string>twitter</string>
+			<string>instagram</string>
+			<string>instagram-stories</string>
+			<string>linkedin</string>
+			<string>youtube</string>
+			<string>snapchat</string>
+			<string>pinterest</string>
+			<!-- Messaging -->
+			<string>tg</string>
+			<string>telegram</string>
+			<string>viber</string>
+			<string>skype</string>
+			<string>line</string>
+			<string>wechat</string>
+			<string>weixin</string>
+			<!-- App Store -->
+			<string>itms-apps</string>
+			<string>itms-appss</string>
+			<string>itms</string>
+			<!-- UPI Payment Apps -->
+			<string>phonepe</string>
+			<string>tez</string>
+			<string>paytmmp</string>
+			<string>upi</string>
+		</array>
+		<key>UIStatusBarHidden</key>
+		<true/>
+		<key>UIViewControllerBasedStatusBarAppearance</key>
+		<true/>
+	</dict>
+</plist>

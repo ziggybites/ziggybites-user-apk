@@ -1,0 +1,114 @@
+{
+  "project_info": {
+    "project_number": "602842051748",
+    "firebase_url": "https://ziggybites-79bfc-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "ziggybites-79bfc",
+    "storage_bucket": "ziggybites-79bfc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602842051748:android:ca8b18fa79a33172726231",
+        "android_client_info": {
+          "package_name": "com.ziggybites.delivery"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602842051748-a7s9mj1afg592ijoahif1nahnvdphtfv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASPAqU5aBL9qNwXz4IumXKTAi_zGdQsTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602842051748-a7s9mj1afg592ijoahif1nahnvdphtfv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602842051748:android:59862acbe16f65f4726231",
+        "android_client_info": {
+          "package_name": "com.ziggybites.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602842051748-td7s8ka4emm022h3gevpdhh9da7lq35k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ziggybites.user",
+            "certificate_hash": "f86bca047efc5f6fcf7ce1046af60386c7fe3403"
+          }
+        },
+        {
+          "client_id": "602842051748-a7s9mj1afg592ijoahif1nahnvdphtfv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASPAqU5aBL9qNwXz4IumXKTAi_zGdQsTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602842051748-a7s9mj1afg592ijoahif1nahnvdphtfv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602842051748:android:1adebe133d1cf7ab726231",
+        "android_client_info": {
+          "package_name": "com.ziggybites.vendor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602842051748-fmprn44c8kjtp3pg59alaq8q8m2579kh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ziggybites.vendor",
+            "certificate_hash": "c787211b2a10a8016595f9b46aaef134e0a9f611"
+          }
+        },
+        {
+          "client_id": "602842051748-a7s9mj1afg592ijoahif1nahnvdphtfv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASPAqU5aBL9qNwXz4IumXKTAi_zGdQsTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602842051748-a7s9mj1afg592ijoahif1nahnvdphtfv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
