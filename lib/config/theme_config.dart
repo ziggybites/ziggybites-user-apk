@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'app_config.dart';
 
 /// Theme configuration for light and dark modes

@@ -18,7 +18,8 @@ class PrefsUtil {
   static SharedPreferences get instance {
     if (_prefs == null) {
       throw Exception(
-          'PrefsUtil not initialized. Call PrefsUtil.init() first.');
+        'PrefsUtil not initialized. Call PrefsUtil.init() first.',
+      );
     }
     return _prefs!;
   }
@@ -82,7 +83,7 @@ class PrefsUtil {
   }
 
   // ==================== AUTH TOKEN ====================
-  
+
   static const String _keyAccessToken = 'access_token';
 
   /// Save API access token

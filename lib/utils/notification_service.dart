@@ -4,6 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:webview_master_app/services/api_service.dart';
 import 'package:webview_master_app/config/app_config.dart';
+
 import 'dart:io' show Platform;
 
 /// Notification Service - Handles system tray notifications
@@ -36,10 +37,10 @@ class NotificationService {
     // iOS initialization settings
     const DarwinInitializationSettings iosSettings =
         DarwinInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
-    );
+          requestAlertPermission: true,
+          requestBadgePermission: true,
+          requestSoundPermission: true,
+        );
 
     // Combined initialization settings
     const InitializationSettings initSettings = InitializationSettings(
@@ -77,20 +78,21 @@ class NotificationService {
           sound: true,
         );
 
-        NotificationSettings settings =
-            await _firebaseMessaging!.requestPermission(
-          alert: true,
-          badge: true,
-          sound: true,
-          provisional: false,
-        );
+        NotificationSettings settings = await _firebaseMessaging!
+            .requestPermission(
+              alert: true,
+              badge: true,
+              sound: true,
+              provisional: false,
+            );
 
         if (settings.authorizationStatus == AuthorizationStatus.authorized) {
           debugPrint('✅ Firebase notification permission granted (iOS)');
         } else if (settings.authorizationStatus ==
             AuthorizationStatus.provisional) {
           debugPrint(
-              '⚠️ Firebase notification permission granted provisionally (iOS)');
+            '⚠️ Firebase notification permission granted provisionally (iOS)',
+          );
         } else {
           debugPrint('❌ Firebase notification permission denied (iOS)');
         }
@@ -123,9 +125,9 @@ class NotificationService {
       });
 
       // Handle notification tap when app is opened from terminated state
-      FirebaseMessaging.instance
-          .getInitialMessage()
-          .then((RemoteMessage? message) {
+      FirebaseMessaging.instance.getInitialMessage().then((
+        RemoteMessage? message,
+      ) {
         if (message != null) {
           debugPrint('📨 App opened from notification: ${message.messageId}');
         }
@@ -159,7 +161,8 @@ class NotificationService {
 
       if (Platform.isIOS) {
         debugPrint(
-            '📱 iOS automatically presents FCM notification payload via setForegroundNotificationPresentationOptions. Skipping duplicate local notification display.');
+          '📱 iOS automatically presents FCM notification payload via setForegroundNotificationPresentationOptions. Skipping duplicate local notification display.',
+        );
         return;
       }
 
@@ -189,7 +192,8 @@ class NotificationService {
         final granted = await requestPermission();
         if (!granted) {
           debugPrint(
-              '❌ Notification permission denied, cannot show notification');
+            '❌ Notification permission denied, cannot show notification',
+          );
           return;
         }
       }
@@ -199,7 +203,8 @@ class NotificationService {
         title: notification.title ?? 'Notification',
         body: notification.body ?? '',
         payload: data.toString(),
-        imageUrl: notification.android?.imageUrl ??
+        imageUrl:
+            notification.android?.imageUrl ??
             notification.apple?.imageUrl?.toString(),
         notificationId: uniqueId,
       );
@@ -218,7 +223,8 @@ class NotificationService {
       // Check for duplicates
       if (_shownNotificationIds.contains(uniqueId)) {
         debugPrint(
-            '⚠️ Duplicate data-only notification detected, skipping: $uniqueId');
+          '⚠️ Duplicate data-only notification detected, skipping: $uniqueId',
+        );
         return;
       }
 
@@ -317,14 +323,16 @@ class NotificationService {
         ledColor: AppConfig.notificationColor,
       );
 
-      final androidImplementation =
-          _notificationsPlugin.resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>();
+      final androidImplementation = _notificationsPlugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >();
 
       if (androidImplementation != null) {
         await androidImplementation.createNotificationChannel(channel);
         debugPrint(
-            '✅ Notification channel created: ${AppConfig.notificationChannelId}');
+          '✅ Notification channel created: ${AppConfig.notificationChannelId}',
+        );
         debugPrint('   Channel importance: ${channel.importance}');
         debugPrint('   Channel color: ${AppConfig.notificationColor}');
       } else {
@@ -347,7 +355,8 @@ class NotificationService {
         _firebaseMessaging = FirebaseMessaging.instance;
       }
       final settings = await _firebaseMessaging!.getNotificationSettings();
-      final isAuthorized = settings.authorizationStatus == AuthorizationStatus.authorized ||
+      final isAuthorized =
+          settings.authorizationStatus == AuthorizationStatus.authorized ||
           settings.authorizationStatus == AuthorizationStatus.provisional;
       if (isAuthorized) return true;
     }
@@ -437,18 +446,18 @@ class NotificationService {
     // Android notification details
     final AndroidNotificationDetails androidDetails =
         AndroidNotificationDetails(
-      AppConfig.notificationChannelId, // Must match channel ID
-      AppConfig.notificationChannelName, // Must match channel name
-      channelDescription: AppConfig.notificationChannelDescription,
-      importance: Importance.high,
-      priority: Priority.high,
-      playSound: true,
-      enableVibration: true,
-      icon: AppConfig.notificationIcon,
-      showWhen: true,
-      styleInformation: const BigTextStyleInformation(''),
-      color: AppConfig.notificationColor,
-    );
+          AppConfig.notificationChannelId, // Must match channel ID
+          AppConfig.notificationChannelName, // Must match channel name
+          channelDescription: AppConfig.notificationChannelDescription,
+          importance: Importance.high,
+          priority: Priority.high,
+          playSound: true,
+          enableVibration: true,
+          icon: AppConfig.notificationIcon,
+          showWhen: true,
+          styleInformation: const BigTextStyleInformation(''),
+          color: AppConfig.notificationColor,
+        );
 
     // iOS notification details
     const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
@@ -473,7 +482,8 @@ class NotificationService {
         payload: payload,
       );
       debugPrint(
-          '✅ Notification displayed successfully - ID: $localNotificationId');
+        '✅ Notification displayed successfully - ID: $localNotificationId',
+      );
     } catch (e, stackTrace) {
       debugPrint('❌ Error showing notification: $e');
       debugPrint('❌ Stack trace: $stackTrace');

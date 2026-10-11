@@ -65,9 +65,9 @@ class _WebViewScreenState extends State<WebViewScreen> {
       },
     );
 
-   // _checkConnectivity();
+    // _checkConnectivity();
     _initializeNotifications();
-   // _listenToConnectivityChanges();
+    // _listenToConnectivityChanges();
   }
 
   @override
@@ -87,7 +87,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
           final urlString = currentUrl?.toString() ?? '';
 
           // Check if we are on a login/auth page
-          final bool isLoginPage = urlString.contains('/login') ||
+          final bool isLoginPage =
+              urlString.contains('/login') ||
               urlString.contains('/auth/') ||
               urlString.contains('/signin') ||
               urlString.contains('/users/login');
@@ -100,10 +101,14 @@ class _WebViewScreenState extends State<WebViewScreen> {
                   history.list?[previousIndex].url.toString() ?? '';
 
               // Normalize URLs for comparison (remove trailing slashes)
-              final normalizedPrevious =
-                  previousUrl.replaceAll(RegExp(r'/$'), '');
-              final normalizedHome =
-                  AppConfig.webUrl.replaceAll(RegExp(r'/$'), '');
+              final normalizedPrevious = previousUrl.replaceAll(
+                RegExp(r'/$'),
+                '',
+              );
+              final normalizedHome = AppConfig.webUrl.replaceAll(
+                RegExp(r'/$'),
+                '',
+              );
 
               // If previous page is Home/Root and we are on Login, going back
               // will likely just trigger another redirect to Login.
@@ -190,18 +195,12 @@ class _WebViewScreenState extends State<WebViewScreen> {
         if (url.isNotEmpty) url,
       ].join('\n');
 
-      await Share.share(
-        combined,
-        subject: title.isNotEmpty ? title : null,
-      );
+      await Share.share(combined, subject: title.isNotEmpty ? title : null);
 
       return <String, dynamic>{'success': true};
     } catch (error) {
       debugPrint('❌ Native Share Error: $error');
-      return <String, dynamic>{
-        'success': false,
-        'error': error.toString(),
-      };
+      return <String, dynamic>{'success': false, 'error': error.toString()};
     } finally {
       _shareInProgress = false;
     }
@@ -228,11 +227,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
     }
 
     if (raw is! Map) {
-      return const <String, String>{
-        'title': '',
-        'text': '',
-        'url': '',
-      };
+      return const <String, String>{'title': '', 'text': '', 'url': ''};
     }
 
     return <String, String>{
@@ -281,15 +276,17 @@ class _WebViewScreenState extends State<WebViewScreen> {
             }
           } else {
             if (!completer.isCompleted) {
-              completer
-                  .completeError(Exception('No data received from JavaScript'));
+              completer.completeError(
+                Exception('No data received from JavaScript'),
+              );
             }
           }
         },
       );
 
       // Execute JavaScript to extract blob
-      final blobDataScript = '''
+      final blobDataScript =
+          '''
         (function() {
           try {
             var handlerName = '$handlerName';
@@ -395,8 +392,9 @@ class _WebViewScreenState extends State<WebViewScreen> {
           resultMap['mimeType'] as String? ?? mimeType ?? 'application/pdf';
 
       // Extract base64 data (remove data URL prefix)
-      final base64Content =
-          base64Data.contains(',') ? base64Data.split(',')[1] : base64Data;
+      final base64Content = base64Data.contains(',')
+          ? base64Data.split(',')[1]
+          : base64Data;
 
       // Determine filename
       String filename = suggestedFilename ?? 'receipt.pdf';
@@ -422,10 +420,12 @@ class _WebViewScreenState extends State<WebViewScreen> {
       Directory downloadDir;
       if (isReceiptDownload && hasPermission) {
         downloadDir = await downloadService.getDownloadDirectory(
-            usePublicDownloads: true);
+          usePublicDownloads: true,
+        );
       } else {
         downloadDir = await downloadService.getDownloadDirectory(
-            usePublicDownloads: false);
+          usePublicDownloads: false,
+        );
       }
 
       final filePath = '${downloadDir.path}/$filename';
@@ -441,7 +441,10 @@ class _WebViewScreenState extends State<WebViewScreen> {
         try {
           final downloadService = DownloadService();
           await downloadService.addFileToMediaStore(
-              filePath, filename, blobMimeType);
+            filePath,
+            filename,
+            blobMimeType,
+          );
         } catch (e) {
           debugPrint('⚠️ Could not add file to MediaStore: $e');
         }
@@ -476,10 +479,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
               const SizedBox(height: 4),
               Text(
                 filename,
-                style: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 12,
-                ),
+                style: const TextStyle(color: Colors.white70, fontSize: 12),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -513,7 +513,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
   }
 
   Future<void> _injectPhoneCaptureScript(
-      InAppWebViewController controller) async {
+    InAppWebViewController controller,
+  ) async {
     if (_phoneListenerInjected) {
       return;
     }
@@ -630,7 +631,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
   /// Inject JavaScript to intercept API requests and capture POST bodies and RESPONSES
   Future<void> _injectApiInterceptorScript(
-      InAppWebViewController controller) async {
+    InAppWebViewController controller,
+  ) async {
     try {
       const script = r"""
         (function() {
@@ -759,7 +761,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
                 if (accessToken != null && accessToken.isNotEmpty) {
                   debugPrint(
-                      '✅ Found Access Token: ${accessToken.substring(0, 15)}...');
+                    '✅ Found Access Token: ${accessToken.substring(0, 15)}...',
+                  );
 
                   // Save Access Token
                   await PrefsUtil.setAccessToken(accessToken);
@@ -769,7 +772,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
                   // Check user object at root
                   if (body['user'] != null && body['user'] is Map) {
-                    phone = body['user']['phone']?.toString() ??
+                    phone =
+                        body['user']['phone']?.toString() ??
                         body['user']['phoneNumber']?.toString();
                   }
 
@@ -779,7 +783,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
                       body['data'] is Map) {
                     final dataObj = body['data'];
                     if (dataObj['user'] != null && dataObj['user'] is Map) {
-                      phone = dataObj['user']['phoneNumber']?.toString() ??
+                      phone =
+                          dataObj['user']['phoneNumber']?.toString() ??
                           dataObj['user']['phone']?.toString();
                     }
                   }
@@ -787,8 +792,10 @@ class _WebViewScreenState extends State<WebViewScreen> {
                   if (phone != null) {
                     debugPrint('📱 Found Phone Number: $phone');
                     // Clean phone number
-                    String cleanedPhone =
-                        phone.replaceAll(RegExp(r'[^\d]'), '');
+                    String cleanedPhone = phone.replaceAll(
+                      RegExp(r'[^\d]'),
+                      '',
+                    );
                     if (cleanedPhone.length > 10 &&
                         cleanedPhone.startsWith('91')) {
                       cleanedPhone = cleanedPhone.substring(2);
@@ -815,7 +822,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
   /// Inject JavaScript to intercept phone, email, and WhatsApp button clicks
   Future<void> _injectLinkInterceptorScript(
-      InAppWebViewController controller) async {
+    InAppWebViewController controller,
+  ) async {
     if (_linkInterceptorInjected) {
       return;
     }
@@ -972,7 +980,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
       'bhim',
       'cred',
       'mobikwik',
-      'amazonpay'
+      'amazonpay',
     ].contains(scheme)) {
       return true;
     }
@@ -1071,14 +1079,16 @@ class _WebViewScreenState extends State<WebViewScreen> {
                 if (upiParamsResult != null &&
                     upiParamsResult.toString() != 'null') {
                   try {
-                    final paramsJson = jsonDecode(upiParamsResult.toString())
-                        as Map<String, dynamic>;
+                    final paramsJson = jsonDecode(
+                      upiParamsResult.toString(),
+                    ) as Map<String, dynamic>;
                     if (paramsJson.isNotEmpty) {
                       final upiUri = Uri(
                         scheme: 'upi',
                         host: 'pay',
                         queryParameters: paramsJson.map(
-                            (key, value) => MapEntry(key, value.toString())),
+                          (key, value) => MapEntry(key, value.toString()),
+                        ),
                       );
                       debugPrint('💳 Using UPI parameters from page: $upiUri');
                       return upiUri;
@@ -1122,7 +1132,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
         'cred',
         'mobikwik',
         'amazonpay',
-        'gpay'
+        'gpay',
       ];
 
       if (knownUpiSchemes.contains(scheme) ||
@@ -1138,7 +1148,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
           // Fallback attempt without checking canLaunchUrl (sometimes works on legacy Android or specific config)
           try {
             debugPrint(
-                '⚠️ canLaunchUrl returned false, attempting launch anyway...');
+              '⚠️ canLaunchUrl returned false, attempting launch anyway...',
+            );
             await launchUrl(uri, mode: LaunchMode.externalApplication);
             return true;
           } catch (e) {
@@ -1146,8 +1157,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
             if (mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                    content:
-                        Text('Could not open payment app. Is it installed?')),
+                  content: Text('Could not open payment app. Is it installed?'),
+                ),
               );
             }
           }
@@ -1182,8 +1193,9 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
       for (var pattern in patterns) {
         if (intentString.contains(pattern)) {
-          final fallbackBlock = intentString
-              .substring(intentString.indexOf(pattern) + pattern.length);
+          final fallbackBlock = intentString.substring(
+            intentString.indexOf(pattern) + pattern.length,
+          );
           final endIndex = fallbackBlock.indexOf(';');
 
           if (endIndex != -1) {
@@ -1261,8 +1273,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                       ),
                       pullToRefreshController: _pullToRefreshController,
                       initialSettings: InAppWebViewSettings(
-                        userAgent:
-                            'Mozilla/5.0 (Linux; Android 13; Pixel 7 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36',
+                        userAgent: 'Mozilla/5.0 (Linux; Android 13; Pixel 7 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36',
                         javaScriptEnabled: true,
                         javaScriptCanOpenWindowsAutomatically: false,
                         domStorageEnabled: true,
@@ -1284,12 +1295,13 @@ class _WebViewScreenState extends State<WebViewScreen> {
                         useShouldOverrideUrlLoading: true,
                       ),
 
-                      onReceivedError: (controller, request, error){
+                      onReceivedError: (controller, request, error) {
                         debugPrint(request.toString());
-                        if(request.isForMainFrame == true || request.url.toString().endsWith('.js')){
+                        if (request.isForMainFrame == true ||
+                            request.url.toString().endsWith('.js')) {
                           setState(() {
-                          _isOnline = false;
-                        });
+                            _isOnline = false;
+                          });
                         }
                       },
 
@@ -1307,9 +1319,11 @@ class _WebViewScreenState extends State<WebViewScreen> {
                             (url.path.endsWith('.svg') ||
                                 url.toString().contains('.svg'))) {
                           debugPrint(
-                              '💳 onCreateWindow: Detected Razorpay UPI app SVG, intercepting...');
-                          final upiAppUri =
-                              await _handleRazorpayUPIAppClick(url);
+                            '💳 onCreateWindow: Detected Razorpay UPI app SVG, intercepting...',
+                          );
+                          final upiAppUri = await _handleRazorpayUPIAppClick(
+                            url,
+                          );
                           if (upiAppUri != null) {
                             await _launchExternalUrl(upiAppUri);
                             return false;
@@ -1323,13 +1337,16 @@ class _WebViewScreenState extends State<WebViewScreen> {
                           'file',
                           'chrome',
                           'data',
-                          'javascript'
+                          'javascript',
                         ];
-                        if (!allowedSchemes
-                            .contains(url.scheme.toLowerCase())) {
+                        if (!allowedSchemes.contains(
+                          url.scheme.toLowerCase(),
+                        )) {
                           if (await canLaunchUrl(url)) {
-                            await launchUrl(url,
-                                mode: LaunchMode.externalApplication);
+                            await launchUrl(
+                              url,
+                              mode: LaunchMode.externalApplication,
+                            );
                             return false;
                           }
                         }
@@ -1345,75 +1362,84 @@ class _WebViewScreenState extends State<WebViewScreen> {
                         // ✅ REGISTER FILE CHOOSER HERE (v6.1.5)
 
                         debugPrint(
-                            '✅ WebView created & file chooser registered');
+                          '✅ WebView created & file chooser registered',
+                        );
                       },
                       shouldOverrideUrlLoading:
                           (controller, navigationAction) async {
-                        final urlRequest = navigationAction.request;
-                        final uri = urlRequest.url;
+                            final urlRequest = navigationAction.request;
+                            final uri = urlRequest.url;
 
-                        if (uri == null) return NavigationActionPolicy.ALLOW;
+                            if (uri == null)
+                              return NavigationActionPolicy.ALLOW;
 
-                        debugPrint('➡️ Navigating: $uri');
+                            debugPrint('➡️ Navigating: $uri');
 
-                        // 1. Check for Intent Scheme (Android)
-                        if (uri.scheme.toLowerCase() == 'intent') {
-                          await _handleIntentUrl(uri);
-                          return NavigationActionPolicy.CANCEL;
-                        }
+                            // 1. Check for Intent Scheme (Android)
+                            if (uri.scheme.toLowerCase() == 'intent') {
+                              await _handleIntentUrl(uri);
+                              return NavigationActionPolicy.CANCEL;
+                            }
 
-                        // 2. Check for Phone/Tel Scheme
-                        if (uri.scheme.toLowerCase() == 'tel') {
-                          debugPrint('🤖 Detected Intent scheme, launching...');
-                          try {
-                            await launchUrl(uri,
-                                mode: LaunchMode.externalApplication);
-                            return NavigationActionPolicy.CANCEL;
-                          } catch (e) {
-                            debugPrint('❌ Failed to launch intent: $e');
-                            // Continue to allow fallback URL processing if handled by webview?
-                            // Usually fallback urls are inside the intent string, complex to parse here.
-                          }
-                        }
+                            // 2. Check for Phone/Tel Scheme
+                            if (uri.scheme.toLowerCase() == 'tel') {
+                              debugPrint(
+                                '🤖 Detected Intent scheme, launching...',
+                              );
+                              try {
+                                await launchUrl(
+                                  uri,
+                                  mode: LaunchMode.externalApplication,
+                                );
+                                return NavigationActionPolicy.CANCEL;
+                              } catch (e) {
+                                debugPrint('❌ Failed to launch intent: $e');
+                                // Continue to allow fallback URL processing if handled by webview?
+                                // Usually fallback urls are inside the intent string, complex to parse here.
+                              }
+                            }
 
-                        // 2. Check for UPI deep links
-                        if (uri.scheme.toLowerCase() == 'upi') {
-                          debugPrint('💳 Detected UPI URL: $uri');
-                          await _launchExternalUrl(uri);
-                          return NavigationActionPolicy.CANCEL;
-                        }
+                            // 2. Check for UPI deep links
+                            if (uri.scheme.toLowerCase() == 'upi') {
+                              debugPrint('💳 Detected UPI URL: $uri');
+                              await _launchExternalUrl(uri);
+                              return NavigationActionPolicy.CANCEL;
+                            }
 
-                        // 3. Check for Razorpay UPI SVG
-                        final upiAppUri = await _handleRazorpayUPIAppClick(uri);
-                        if (upiAppUri != null) {
-                          await _launchExternalUrl(upiAppUri);
-                          return NavigationActionPolicy.CANCEL;
-                        }
+                            // 3. Check for Razorpay UPI SVG
+                            final upiAppUri = await _handleRazorpayUPIAppClick(
+                              uri,
+                            );
+                            if (upiAppUri != null) {
+                              await _launchExternalUrl(upiAppUri);
+                              return NavigationActionPolicy.CANCEL;
+                            }
 
-                        // 4. Handle other non-HTTP schemes
-                        final allowedSchemes = [
-                          'http',
-                          'https',
-                          'file',
-                          'chrome',
-                          'data',
-                          'javascript',
-                          'about'
-                        ];
-                        if (!allowedSchemes
-                            .contains(uri.scheme.toLowerCase())) {
-                          await _launchExternalUrl(uri);
-                          return NavigationActionPolicy.CANCEL;
-                        }
+                            // 4. Handle other non-HTTP schemes
+                            final allowedSchemes = [
+                              'http',
+                              'https',
+                              'file',
+                              'chrome',
+                              'data',
+                              'javascript',
+                              'about',
+                            ];
+                            if (!allowedSchemes.contains(
+                              uri.scheme.toLowerCase(),
+                            )) {
+                              await _launchExternalUrl(uri);
+                              return NavigationActionPolicy.CANCEL;
+                            }
 
-                        // 5. External launch check
-                        if (_shouldLaunchExternally(uri)) {
-                          await _launchExternalUrl(uri);
-                          return NavigationActionPolicy.CANCEL;
-                        }
+                            // 5. External launch check
+                            if (_shouldLaunchExternally(uri)) {
+                              await _launchExternalUrl(uri);
+                              return NavigationActionPolicy.CANCEL;
+                            }
 
-                        return NavigationActionPolicy.ALLOW;
-                      },
+                            return NavigationActionPolicy.ALLOW;
+                          },
                       onWebViewCreated: (controller) async {
                         _webViewController = controller;
 
@@ -1430,8 +1456,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                             bool serviceEnabled =
                                 await Geolocator.isLocationServiceEnabled();
                             if (!serviceEnabled) {
-                              await Geolocator
-                                  .openLocationSettings(); // Opens GPS toggle
+                              await Geolocator.openLocationSettings(); // Opens GPS toggle
                               return;
                             }
 
@@ -1462,11 +1487,12 @@ class _WebViewScreenState extends State<WebViewScreen> {
                                   await GoogleSignIn().signIn();
                               if (googleUser == null) {
                                 debugPrint(
-                                    '⚠️ Google Sign-In Cancelled by User');
+                                  '⚠️ Google Sign-In Cancelled by User',
+                                );
                                 return {
                                   'success': false,
                                   'cancelled': true,
-                                  'error': 'USER_CANCELLED'
+                                  'error': 'USER_CANCELLED',
                                 };
                               }
 
@@ -1483,8 +1509,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                                   'success': false,
                                   'cancelled': false,
                                   'error': 'SIGN_IN_FAILED',
-                                  'message':
-                                      'Failed to retrieve Google authentication tokens'
+                                  'message': 'Failed to retrieve Google authentication tokens',
                                 };
                               }
 
@@ -1496,9 +1521,9 @@ class _WebViewScreenState extends State<WebViewScreen> {
                                     accessToken.isNotEmpty) {
                                   final OAuthCredential credential =
                                       GoogleAuthProvider.credential(
-                                    accessToken: accessToken,
-                                    idToken: idToken,
-                                  );
+                                        accessToken: accessToken,
+                                        idToken: idToken,
+                                      );
                                   await FirebaseAuth.instance
                                       .signInWithCredential(credential);
                                   debugPrint('✅ Firebase Native Auth Success');
@@ -1508,14 +1533,15 @@ class _WebViewScreenState extends State<WebViewScreen> {
                               }
 
                               debugPrint(
-                                  '✅ Native Google Sign In Success, passing token to web...');
+                                '✅ Native Google Sign In Success, passing token to web...',
+                              );
 
                               // 4. Return the Google Tokens back to the website Javascript
                               final Map<String, dynamic> response = {
                                 'success': true,
                                 'email': googleUser.email,
                                 'displayName': googleUser.displayName,
-                                'photoUrl': googleUser.photoUrl
+                                'photoUrl': googleUser.photoUrl,
                               };
 
                               if (idToken != null && idToken.isNotEmpty) {
@@ -1534,7 +1560,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                                 'success': false,
                                 'cancelled': false,
                                 'error': 'SIGN_IN_FAILED',
-                                'message': error.toString()
+                                'message': error.toString(),
                               };
                             }
                           },
@@ -1546,7 +1572,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
                           callback: (args) async {
                             try {
                               debugPrint(
-                                  '🟢 Triggering Native Google Sign Out');
+                                '🟢 Triggering Native Google Sign Out',
+                              );
                               await GoogleSignIn().signOut();
                               await FirebaseAuth.instance.signOut();
                               return {'success': true};
@@ -1554,7 +1581,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                               debugPrint('❌ Google Sign-Out Error: $error');
                               return {
                                 'success': false,
-                                'error': error.toString()
+                                'error': error.toString(),
                               };
                             }
                           },
@@ -1680,12 +1707,16 @@ class _WebViewScreenState extends State<WebViewScreen> {
                       },
                       onGeolocationPermissionsShowPrompt:
                           (controller, origin) async {
-                        return GeolocationPermissionShowPromptResponse(
-                            origin: origin, allow: true, retain: true);
-                      },
+                            return GeolocationPermissionShowPromptResponse(
+                              origin: origin,
+                              allow: true,
+                              retain: true,
+                            );
+                          },
                       onPermissionRequest: (controller, request) async {
                         debugPrint(
-                            '🔒 Permission requested: ${request.resources}');
+                          '🔒 Permission requested: ${request.resources}',
+                        );
 
                         final resources = request.resources;
                         if (resources.contains(PermissionResourceType.CAMERA)) {
@@ -1698,8 +1729,9 @@ class _WebViewScreenState extends State<WebViewScreen> {
                           }
                         }
 
-                        if (resources
-                            .contains(PermissionResourceType.MICROPHONE)) {
+                        if (resources.contains(
+                          PermissionResourceType.MICROPHONE,
+                        )) {
                           final status = await Permission.microphone.request();
                           if (!status.isGranted) {
                             return PermissionResponse(
@@ -1716,10 +1748,10 @@ class _WebViewScreenState extends State<WebViewScreen> {
                       },
                       onConsoleMessage: (controller, consoleMessage) {
                         debugPrint(
-                            '🌐 JS Console: ${consoleMessage.messageLevel}: ${consoleMessage.message}');
+                          '🌐 JS Console: ${consoleMessage.messageLevel}: ${consoleMessage.message}',
+                        );
                       },
-                      onDownloadStartRequest:
-                          (controller, downloadStartRequest) async {
+                      onDownloadStartRequest: (controller, downloadStartRequest) async {
                         try {
                           final url = downloadStartRequest.url.toString();
                           final suggestedFilename =
@@ -1730,15 +1762,18 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
                           debugPrint('📥 Download requested: $url');
                           debugPrint(
-                              '📄 Suggested filename: $suggestedFilename');
+                            '📄 Suggested filename: $suggestedFilename',
+                          );
                           debugPrint('📋 MIME type: $mimeType');
                           debugPrint(
-                              '📋 Content-Disposition: $contentDisposition');
+                            '📋 Content-Disposition: $contentDisposition',
+                          );
 
                           // Handle blob URLs - they need to be extracted via JavaScript
                           if (url.startsWith('blob:')) {
                             debugPrint(
-                                '🔵 Blob URL detected, extracting blob data...');
+                              '🔵 Blob URL detected, extracting blob data...',
+                            );
                             await _handleBlobDownload(
                               controller: controller,
                               blobUrl: url,
@@ -1751,16 +1786,17 @@ class _WebViewScreenState extends State<WebViewScreen> {
                           }
 
                           // Check if it's a receipt download
-                          final isReceiptDownload = url.contains('receipt') ||
+                          final isReceiptDownload =
+                              url.contains('receipt') ||
                               url.contains('download-receipt') ||
                               url.contains('invoice') ||
                               (suggestedFilename != null &&
-                                  (suggestedFilename
-                                          .toLowerCase()
-                                          .contains('receipt') ||
-                                      suggestedFilename
-                                          .toLowerCase()
-                                          .contains('invoice')));
+                                  (suggestedFilename.toLowerCase().contains(
+                                        'receipt',
+                                      ) ||
+                                      suggestedFilename.toLowerCase().contains(
+                                        'invoice',
+                                      )));
 
                           if (!mounted) return;
 
@@ -1772,15 +1808,16 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
                           if (isReceiptDownload) {
                             // For receipts, try to get permission for public Downloads
-                            hasPermission = await PermissionHandlerUtil
-                                .checkStoragePermission();
+                            hasPermission =
+                                await PermissionHandlerUtil.checkStoragePermission();
                             if (!hasPermission) {
-                              final granted = await PermissionHandlerUtil
-                                  .requestStoragePermission();
+                              final granted =
+                                  await PermissionHandlerUtil.requestStoragePermission();
                               if (!granted) {
                                 // Permission denied, but we can still download to app-specific folder
                                 debugPrint(
-                                    '⚠️ Permission denied, will use app-specific Downloads folder');
+                                  '⚠️ Permission denied, will use app-specific Downloads folder',
+                                );
                                 hasPermission = false;
                                 canDownload =
                                     true; // Still allow download to app folder
@@ -1800,7 +1837,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text(
-                                      'Cannot download file. Please check storage permissions in app settings.'),
+                                    'Cannot download file. Please check storage permissions in app settings.',
+                                  ),
                                   backgroundColor: Colors.orange,
                                   duration: Duration(seconds: 3),
                                 ),
@@ -1822,7 +1860,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
                                         strokeWidth: 2,
                                         valueColor:
                                             AlwaysStoppedAnimation<Color>(
-                                                Colors.white),
+                                              Colors.white,
+                                            ),
                                       ),
                                     ),
                                     const SizedBox(width: 12),
@@ -1832,7 +1871,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
                                             ? 'Downloading receipt...'
                                             : 'Downloading file...',
                                         style: const TextStyle(
-                                            color: Colors.white),
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -1852,7 +1892,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
                           if (isReceiptDownload && hasPermission) {
                             // Try public Downloads folder first
                             debugPrint(
-                                '📥 Attempting to download receipt to public Downloads folder...');
+                              '📥 Attempting to download receipt to public Downloads folder...',
+                            );
                             result = await downloadService.downloadFile(
                               url: url,
                               contentDisposition: contentDisposition,
@@ -1863,7 +1904,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
                                   final progress = (received / total * 100)
                                       .toStringAsFixed(1);
                                   debugPrint(
-                                      '📥 Download progress: $progress%');
+                                    '📥 Download progress: $progress%',
+                                  );
                                 }
                               },
                             );
@@ -1871,19 +1913,20 @@ class _WebViewScreenState extends State<WebViewScreen> {
                             // If public Downloads failed, fallback to app-specific folder
                             if (!result.success) {
                               debugPrint(
-                                  '⚠️ Public Downloads failed, using app-specific folder...');
+                                '⚠️ Public Downloads failed, using app-specific folder...',
+                              );
                               result = await downloadService.downloadFile(
                                 url: url,
                                 contentDisposition: contentDisposition,
                                 context: context,
-                                usePublicDownloads:
-                                    false, // Use app-specific folder (no permission needed)
+                                usePublicDownloads: false, // Use app-specific folder (no permission needed)
                                 onProgress: (received, total) {
                                   if (total > 0) {
                                     final progress = (received / total * 100)
                                         .toStringAsFixed(1);
                                     debugPrint(
-                                        '📥 Download progress: $progress%');
+                                      '📥 Download progress: $progress%',
+                                    );
                                   }
                                 },
                               );
@@ -1891,7 +1934,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
                           } else {
                             // Use app-specific folder (no permission needed for Android 10+)
                             debugPrint(
-                                '📥 Downloading to app-specific Downloads folder (no permission needed)...');
+                              '📥 Downloading to app-specific Downloads folder (no permission needed)...',
+                            );
                             result = await downloadService.downloadFile(
                               url: url,
                               contentDisposition: contentDisposition,
@@ -1903,7 +1947,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
                                   final progress = (received / total * 100)
                                       .toStringAsFixed(1);
                                   debugPrint(
-                                      '📥 Download progress: $progress%');
+                                    '📥 Download progress: $progress%',
+                                  );
                                 }
                               },
                             );
@@ -1921,8 +1966,10 @@ class _WebViewScreenState extends State<WebViewScreen> {
                                   children: [
                                     Row(
                                       children: [
-                                        const Icon(Icons.check_circle,
-                                            color: Colors.white),
+                                        const Icon(
+                                          Icons.check_circle,
+                                          color: Colors.white,
+                                        ),
                                         const SizedBox(width: 8),
                                         Expanded(
                                           child: Text(
@@ -1959,15 +2006,17 @@ class _WebViewScreenState extends State<WebViewScreen> {
                                   textColor: Colors.white,
                                   onPressed: () async {
                                     if (result.filePath != null) {
-                                      await downloadService
-                                          .openFile(result.filePath!);
+                                      await downloadService.openFile(
+                                        result.filePath!,
+                                      );
                                     }
                                   },
                                 ),
                               ),
                             );
                             debugPrint(
-                                '✅ Download successful: ${result.filePath}');
+                              '✅ Download successful: ${result.filePath}',
+                            );
                           } else {
                             // Show error message
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -2005,12 +2054,14 @@ class _WebViewScreenState extends State<WebViewScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               CircularProgressIndicator(
-                                value: _loadingProgress < 1.0 &&
+                                value:
+                                    _loadingProgress < 1.0 &&
                                         _loadingProgress > 0
                                     ? _loadingProgress
                                     : null,
                                 valueColor: AlwaysStoppedAnimation<Color>(
-                                    AppConfig.primaryColor),
+                                  AppConfig.primaryColor,
+                                ),
                               ),
                               const SizedBox(height: 16),
                               Text(
@@ -2028,7 +2079,8 @@ class _WebViewScreenState extends State<WebViewScreen> {
                   ],
                 )
               : OfflineScreen(
-                  onRetry: _retryLoad), // Use your existing OfflineScreen
+                  onRetry: _retryLoad,
+                ), // Use your existing OfflineScreen
         ),
       ),
     );
@@ -2051,19 +2103,12 @@ class _WebViewScreenState extends State<WebViewScreen> {
               color: AppConfig.primaryColor.withOpacity(0.1),
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              icon,
-              size: 30,
-              color: AppConfig.primaryColor,
-            ),
+            child: Icon(icon, size: 30, color: AppConfig.primaryColor),
           ),
           const SizedBox(height: 8),
           Text(
             label,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
         ],
       ),

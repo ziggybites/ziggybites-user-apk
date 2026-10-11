@@ -32,8 +32,9 @@ class AppConfig {
   static const Color exitDialogBackgroundDark = Color(0xFF1E1E1E); // Dark Gray
   static const Color exitDialogTitleColorDark = Color(0xFFFFFFFF); // White
   static const Color exitDialogTextColorDark = Color(0xFFB3B3B3); // Light Gray
-  static const Color exitDialogCancelColorDark =
-      Color(0xFFB3B3B3); // Light Gray
+  static const Color exitDialogCancelColorDark = Color(
+    0xFFB3B3B3,
+  ); // Light Gray
 
   // Exit Dialog - Common
   static const Color exitDialogButtonColor = primaryColor; // Exit button color
@@ -80,7 +81,7 @@ class AppConfig {
   static const String apiBaseUrl = 'https://ziggybites.com/api';
   static const String fcmTokenUrl =
       'https://ziggybites.com/api/v1/fcm-tokens/mobile/save';
-//https://api.Mobasket.com/api/notification/user/token
+  //https://api.Mobasket.com/api/notification/user/token
   // ==================== SPLASH SCREEN ====================
   static const int splashDurationSeconds = 2;
 
@@ -93,14 +94,12 @@ class AppConfig {
     ),
     OnboardingPage(
       title: 'Feature Rich',
-      description:
-          'Enjoy camera, location, microphone access and many more powerful features.',
+      description: 'Enjoy camera, location, microphone access and many more powerful features.',
       imagePath: 'assets/onboarding/onboarding2.png',
     ),
     OnboardingPage(
       title: 'Fast & Secure',
-      description:
-          'Lightning-fast performance with top-notch security for your delivery needs.',
+      description: 'Lightning-fast performance with top-notch security for your delivery needs.',
       imagePath: 'assets/onboarding/onboarding3.png',
     ),
   ];

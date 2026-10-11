@@ -44,7 +44,7 @@ class StatusBarUtil {
   /// Set status bar for light theme
   static void setLightStatusBar() {
     SystemChrome.setSystemUIOverlayStyle(
-     const SystemUiOverlayStyle(
+      const SystemUiOverlayStyle(
         statusBarColor: AppConfig.statusBarColorLight,
         statusBarIconBrightness: AppConfig.statusBarIconBrightnessLight,
         statusBarBrightness: Brightness.light,

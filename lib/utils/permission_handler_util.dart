@@ -98,7 +98,9 @@ class PermissionHandlerUtil {
 
   /// Show permission rationale dialog
   static void showPermissionRationale(
-      BuildContext context, String permissionName) {
+    BuildContext context,
+    String permissionName,
+  ) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(

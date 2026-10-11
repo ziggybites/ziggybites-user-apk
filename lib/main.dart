@@ -10,7 +10,6 @@ import 'package:webview_master_app/utils/fcm_background_handler.dart';
 import 'package:webview_master_app/utils/notification_service.dart';
 import 'package:webview_master_app/screens/webview_screen.dart';
 
-
 /// Main entry point of the application
 void main() async {
   // Ensure Flutter bindings are initialized
@@ -26,7 +25,8 @@ void main() async {
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
     debugPrint('✅ Background message handler registered');
     debugPrint(
-        '📱 Notification setup: Both foreground and background notifications enabled');
+      '📱 Notification setup: Both foreground and background notifications enabled',
+    );
   } catch (e) {
     debugPrint('❌ Error initializing Firebase: $e');
     debugPrint('⚠️ Make sure google-services.json is added to android/app/');

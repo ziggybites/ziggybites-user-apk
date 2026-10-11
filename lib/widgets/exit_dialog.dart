@@ -77,8 +77,9 @@ class _ExitDialogWidgetState extends State<_ExitDialogWidget>
 
           // Shape with configurable border radius and elevation
           shape: RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.circular(AppConfig.exitDialogBorderRadius),
+            borderRadius: BorderRadius.circular(
+              AppConfig.exitDialogBorderRadius,
+            ),
           ),
           elevation: 8,
 
@@ -159,10 +160,12 @@ class _ExitDialogWidgetState extends State<_ExitDialogWidget>
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       side: BorderSide(
                         color: isDark
-                            ? AppConfig.exitDialogCancelColorDark
-                                .withOpacity(0.3)
-                            : AppConfig.exitDialogCancelColorLight
-                                .withOpacity(0.3),
+                            ? AppConfig.exitDialogCancelColorDark.withOpacity(
+                                0.3,
+                              )
+                            : AppConfig.exitDialogCancelColorLight.withOpacity(
+                                0.3,
+                              ),
                         width: 1.5,
                       ),
                       shape: RoundedRectangleBorder(
@@ -199,8 +202,9 @@ class _ExitDialogWidgetState extends State<_ExitDialogWidget>
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color:
-                              AppConfig.exitDialogButtonColor.withOpacity(0.3),
+                          color: AppConfig.exitDialogButtonColor.withOpacity(
+                            0.3,
+                          ),
                           blurRadius: 8,
                           offset: const Offset(0, 4),
                         ),

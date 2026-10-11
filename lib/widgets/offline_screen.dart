@@ -5,10 +5,7 @@ import 'package:webview_master_app/config/app_config.dart';
 class OfflineScreen extends StatelessWidget {
   final VoidCallback onRetry;
 
-  const OfflineScreen({
-    super.key,
-    required this.onRetry,
-  });
+  const OfflineScreen({super.key, required this.onRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +28,7 @@ class OfflineScreen extends StatelessWidget {
                 builder: (context, value, child) {
                   return Transform.scale(
                     scale: value,
-                    child: Opacity(
-                      opacity: value,
-                      child: child,
-                    ),
+                    child: Opacity(opacity: value, child: child),
                   );
                 },
                 child: Container(
@@ -95,10 +89,7 @@ class OfflineScreen extends StatelessWidget {
                   icon: const Icon(Icons.refresh),
                   label: const Text(
                     'Try Again',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
@@ -136,10 +127,7 @@ class OfflineScreen extends StatelessWidget {
                       '✓ Turn on Airplane mode and turn it off',
                     ),
                     const SizedBox(height: 8),
-                    _buildTipItem(
-                      isDark,
-                      '✓ Restart your router or modem',
-                    ),
+                    _buildTipItem(isDark, '✓ Restart your router or modem'),
                   ],
                 ),
               ),

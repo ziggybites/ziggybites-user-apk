@@ -165,7 +165,8 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // Agar notification payload hai to Firebase khud show karega.
   if (notification != null) {
     debugPrint(
-        '✅ Notification payload detected. Firebase will show it automatically.');
+      '✅ Notification payload detected. Firebase will show it automatically.',
+    );
     return;
   }
 
@@ -189,16 +190,15 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
     final AndroidNotificationDetails androidDetails =
         AndroidNotificationDetails(
-      AppConfig.notificationChannelId,
-      AppConfig.notificationChannelName,
-      channelDescription: AppConfig.notificationChannelDescription,
-      importance: Importance.high,
-      priority: Priority.high,
-      icon: AppConfig.notificationIcon,
-    );
+          AppConfig.notificationChannelId,
+          AppConfig.notificationChannelName,
+          channelDescription: AppConfig.notificationChannelDescription,
+          importance: Importance.high,
+          priority: Priority.high,
+          icon: AppConfig.notificationIcon,
+        );
 
-    const DarwinNotificationDetails iosDetails =
-        DarwinNotificationDetails();
+    const DarwinNotificationDetails iosDetails = DarwinNotificationDetails();
 
     final NotificationDetails notificationDetails = NotificationDetails(
       android: androidDetails,

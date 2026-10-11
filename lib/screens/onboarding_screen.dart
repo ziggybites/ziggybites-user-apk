@@ -33,9 +33,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     if (!mounted) return;
 
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => const WebViewScreen(),
-      ),
+      MaterialPageRoute(builder: (context) => const WebViewScreen()),
     );
   }
 

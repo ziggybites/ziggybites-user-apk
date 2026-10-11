@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -143,8 +144,9 @@ class DownloadService {
 
   /// Get download directory
   /// Uses app-specific directories to comply with Google Play scoped storage requirements
-  Future<Directory> getDownloadDirectory(
-      {bool usePublicDownloads = false}) async {
+  Future<Directory> getDownloadDirectory({
+    bool usePublicDownloads = false,
+  }) async {
     if (Platform.isAndroid) {
       // For receipts, try to use public Downloads folder if requested
       if (usePublicDownloads) {
@@ -182,14 +184,16 @@ class DownloadService {
                 final downloadDir = Directory('$basePath/Download');
                 if (await downloadDir.exists()) {
                   debugPrint(
-                      '✅ Using public Downloads directory: ${downloadDir.path}');
+                    '✅ Using public Downloads directory: ${downloadDir.path}',
+                  );
                   return downloadDir;
                 }
                 // Try to create if it doesn't exist
                 try {
                   await downloadDir.create(recursive: true);
                   debugPrint(
-                      '✅ Created public Downloads directory: ${downloadDir.path}');
+                    '✅ Created public Downloads directory: ${downloadDir.path}',
+                  );
                   return downloadDir;
                 } catch (e) {
                   debugPrint('⚠️ Could not create public Downloads: $e');
@@ -214,7 +218,8 @@ class DownloadService {
           if (!await downloadDir.exists()) {
             await downloadDir.create(recursive: true);
             debugPrint(
-                '✅ Created app Downloads directory: ${downloadDir.path}');
+              '✅ Created app Downloads directory: ${downloadDir.path}',
+            );
           } else {
             debugPrint('✅ Using app Downloads directory: ${downloadDir.path}');
           }
@@ -253,14 +258,16 @@ class DownloadService {
   /// Request storage permission
   /// For Android 10+ (API 29+), app-specific directories don't require permission
   /// Permission is only needed for public Downloads folder access
-  Future<bool> requestStoragePermission(
-      {bool requirePublicAccess = false}) async {
+  Future<bool> requestStoragePermission({
+    bool requirePublicAccess = false,
+  }) async {
     try {
       // For Android 10+, app-specific directories are accessible without permission
       // Only check permission if we need public Downloads folder access
       if (Platform.isAndroid && !requirePublicAccess) {
         debugPrint(
-            '✅ Android 10+: App-specific directory access doesn\'t require permission');
+          '✅ Android 10+: App-specific directory access doesn\'t require permission',
+        );
         return true; // Allow download to app-specific directory
       }
 
@@ -283,7 +290,8 @@ class DownloadService {
       // For app-specific directories, allow download even if permission check fails
       if (Platform.isAndroid && !requirePublicAccess) {
         debugPrint(
-            '⚠️ Permission check failed, but allowing download to app-specific directory');
+          '⚠️ Permission check failed, but allowing download to app-specific directory',
+        );
         return true;
       }
       return false;
@@ -314,8 +322,7 @@ class DownloadService {
         // Only fail if we specifically need public Downloads access
         return DownloadResult(
           success: false,
-          error:
-              'Storage permission denied. File will be saved to app Downloads folder instead.',
+          error: 'Storage permission denied. File will be saved to app Downloads folder instead.',
           filePath: null,
         );
       }
@@ -323,12 +330,14 @@ class DownloadService {
       // If permission denied but we can use app-specific directory, continue
       if (!hasPermission && !usePublicDownloads) {
         debugPrint(
-            '⚠️ Permission not granted, but using app-specific directory (no permission needed)');
+          '⚠️ Permission not granted, but using app-specific directory (no permission needed)',
+        );
       }
 
       // Get download directory (use public Downloads for receipts)
-      final downloadDir =
-          await getDownloadDirectory(usePublicDownloads: usePublicDownloads);
+      final downloadDir = await getDownloadDirectory(
+        usePublicDownloads: usePublicDownloads,
+      );
 
       // First, make a HEAD request to get headers (including Content-Disposition)
       String? finalContentDisposition = contentDisposition;
@@ -349,7 +358,8 @@ class DownloadService {
 
         // Extract Content-Disposition from response headers
         final headers = headResponse.headers;
-        finalContentDisposition = headers.value('content-disposition') ??
+        finalContentDisposition =
+            headers.value('content-disposition') ??
             headers.value('Content-Disposition');
 
         debugPrint('📋 Content-Disposition: $finalContentDisposition');
@@ -513,7 +523,10 @@ class DownloadService {
 
   /// Add file to MediaStore to make it visible in Downloads (Android 10+)
   Future<void> addFileToMediaStore(
-      String filePath, String filename, String? mimeType) async {
+    String filePath,
+    String filename,
+    String? mimeType,
+  ) async {
     if (!Platform.isAndroid) return;
 
     try {
@@ -537,7 +550,9 @@ class DownloadService {
 
   /// Fallback: Copy file to public Downloads folder
   Future<void> _copyToPublicDownloads(
-      String sourcePath, String filename) async {
+    String sourcePath,
+    String filename,
+  ) async {
     try {
       // Try to copy to public Downloads
       final publicDownloadsPaths = [
@@ -596,8 +611,3 @@ class DownloadResult {
     this.fileSize,
   });
 }
-
-
-
-
-
