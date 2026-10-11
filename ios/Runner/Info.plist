@@ -75,12 +75,6 @@
 		<!-- ==================== WEBVIEW SETTINGS ==================== -->
 		<key>io.flutter.embedded_views_preview</key>
 		<true/>
-		<!-- Allow HTTP connections (for development only - remove in production) -->
-		<key>NSAppTransportSecurity</key>
-		<dict>
-			<key>NSAllowsArbitraryLoads</key>
-			<true/>
-		</dict>
 		<!-- ==================== URL SCHEME QUERIES ==================== -->
 		<!-- Required for iOS to query and open other apps via URL schemes -->
 		<key>LSApplicationQueriesSchemes</key>

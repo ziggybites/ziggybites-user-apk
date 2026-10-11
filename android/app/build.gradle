@@ -24,7 +24,9 @@ if (flutterVersionName == null) {
 }
 
 def keystoreProperties = new Properties()
-def keystorePropertiesFile = rootProject.file('key.properties')
+// Signing keys live outside the repo; override with ZIGGYBITES_SIGNING_DIR
+def signingDir = System.getenv('ZIGGYBITES_SIGNING_DIR') ?: rootProject.file('../../signing-keys/user').path
+def keystorePropertiesFile = new File(signingDir, 'key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
@@ -65,7 +67,7 @@ android {
         release {
             keyAlias = keystoreProperties['keyAlias']
             keyPassword = keystoreProperties['keyPassword']
-            storeFile = keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storeFile = keystoreProperties['storeFile'] ? new File(signingDir, keystoreProperties['storeFile'].trim()) : null
             storePassword = keystoreProperties['storePassword']
         }
     }

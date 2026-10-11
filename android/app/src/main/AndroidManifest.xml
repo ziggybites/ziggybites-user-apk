@@ -37,7 +37,7 @@
         android:label="ZiggyBites"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:usesCleartextTraffic="true"
+        android:usesCleartextTraffic="false"
         android:enableOnBackInvokedCallback="false"
         android:hardwareAccelerated="true">
         

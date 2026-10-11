@@ -122,3 +122,7 @@ temp_interactive_push.bat
 
 # FVM Version Cache
 .fvm/
+# Signing keys live outside the repo in ../signing-keys
+**/android/key.properties
+*.jks
+*.keystore
