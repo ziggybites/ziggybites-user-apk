@@ -25,23 +25,24 @@ Flutter app for ZiggyBites customers. It wraps [ziggybites.com](https://ziggybit
 
 ## Project structure
 
+Full tree, Flutter vs WebView screen map, JS bridges and website routes: see **[PROJECT_STRUCTURE.md](PROJECT_STRUCTURE.md)**.
+
 ```
 lib/
-├── main.dart                    # App entry, Firebase init
+├── main.dart                    # App entry, Firebase init → home: WebViewScreen
 ├── config/
 │   ├── app_config.dart          # App name, URLs, colours, notification channel, onboarding
 │   └── theme_config.dart
 ├── screens/
-│   ├── splash_screen.dart
-│   ├── onboarding_screen.dart
-│   └── webview_screen.dart      # WebView, JS handlers, URL routing, uploads, downloads
-├── services/api_service.dart    # Backend API calls
-├── utils/                       # Notifications, FCM background handler, permissions,
-│                                # connectivity, downloads, prefs, status bar
+│   ├── splash_screen.dart       # Native Flutter (optional; not current home)
+│   ├── onboarding_screen.dart   # Native Flutter slides
+│   └── webview_screen.dart      # ★ Loads ziggybites.com — all product UI is web, not Flutter
+├── services/api_service.dart    # Backend API calls (FCM token)
+├── utils/                       # Notifications, FCM, permissions, downloads, prefs
 └── widgets/                     # Exit dialog, offline screen
 ```
 
-Most settings, such as URLs, app name, colours and onboarding slides, live in `lib/config/app_config.dart`.
+Most settings live in `lib/config/app_config.dart`. Product screens (home, login, profile, restaurants, etc.) are **website hash routes** inside the WebView, not Flutter widgets.
 
 ## Getting started
 
